@@ -76,64 +76,62 @@ update_state(args);
 
 function update_state(args) {
 
-//create a things Shadows object
-
-const thingShadows = thingShadow({
-  keyPath: args.privateKey,
-  certPath: args.clientCert,
-  caPath: args.caCert,
-  clientId: args.clientId,
-  region: args.region,
-  reconnectPeriod: args.reconnectPeriod,
-});
-
-//When Thing Shadows connects to AWS server:
-
-
-thingShadows
-  .on('connect', function() {
-  	console.log('registering device: '+ Device_Name)
-
-  	//register device
-  	thingShadows.register(Device_Name);
-
-  	
-  	//read sensor values and send to AWS IoT every 5 seconds 
-  	setInterval(function(){
-
-  	read_sensor(send_state); 
-
-	}, 5000);
-
+  //create a things Shadows object
+  
+  const thingShadows = thingShadow({
+    keyPath: args.privateKey,
+    certPath: args.clientCert,
+    caPath: args.caCert,
+    clientId: args.clientId,
+    region: args.region,
+    reconnectPeriod: args.reconnectPeriod,
   });
 
+  //When Thing Shadows connects to AWS server:
 
-// motitor for events in the stream and print to console:
 
-thingShadows 
-  .on('close', function() {
-    console.log('close');
-  });
-thingShadows 
-  .on('reconnect', function() {
-    console.log('reconnect');
-  });
-thingShadows 
-  .on('offline', function() {
-    console.log('offline');
-  });
-thingShadows
-  .on('error', function(error) {
-    console.log('error', error);
-  });
-thingShadows
-  .on('message', function(topic, payload) {
-    console.log('message', topic, payload.toString());
-  });
-
-};
-
-//define function for reading sensor
+  thingShadows
+    .on('connect', function() {
+      console.log('registering device: '+ Device_Name)
+  
+      //register device
+      thingShadows.register(Device_Name);
+  
+      
+      //read sensor values and send to AWS IoT every 5 seconds 
+      setInterval(function(){
+  
+      read_sensor(send_state); 
+  
+    }, 5000);
+  
+    });
+  
+  
+  //monitor for events in the stream and print to console:
+  
+  thingShadows 
+    .on('close', function() {
+      console.log('close');
+    });
+  thingShadows 
+    .on('reconnect', function() {
+      console.log('reconnect');
+    });
+  thingShadows 
+    .on('offline', function() {
+      console.log('offline');
+    });
+  thingShadows
+    .on('error', function(error) {
+      console.log('error', error);
+    });
+  thingShadows
+    .on('message', function(topic, payload) {
+      console.log('message', topic, payload.toString());
+    });
+  
+  //define function for reading sensor
   function read_sensor(cb){
 
   	read_lux = light.value();
@@ -142,7 +140,7 @@ thingShadows
   	cb();
   };
 
-//define function for updating thing state:
+  //define function for updating thing state:
 
   function send_state(){
 
@@ -156,3 +154,4 @@ thingShadows
   	thingShadows.update(Device_Name, device_state );
 
   };
+};
