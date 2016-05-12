@@ -197,6 +197,6 @@ following command to locate it:
 
    ``` bash
    $ aws iot attach-principal-policy                   \
-        --principal-arn <certificate_arn>               \
+        --principal <certificate_arn>                   \
         --policy-name EdisonPubSubToAnyTopic 
    ```
