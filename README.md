@@ -11,10 +11,10 @@ and setting up a serial terminal. You can find the instructions here:
 
 ## Prepare Your Intel Edison for AWS IoT
 
-Before continuing, it is suggested that you read the AWS IoT
+Before continuing, we recommend that you read the AWS IoT
 [Quickstart](http://docs.aws.amazon.com/iot/latest/developerguide/iot-quickstart.html).
-If you are already familiar with AWS IoT, please continue to get AWS
-interoperability functioning on your Edison device.
+If you are already familiar with AWS IoT, please continue to the next
+step.
 
 ### Install the AWS CLI
 
@@ -47,7 +47,7 @@ version of less packages are required.
 
 #### Groff Installation
 
-Execute the following commands to install Groff.
+Execute the following commands to install Groff:
 
    ``` bash
    $ wget http://ftp.gnu.org/gnu/groff/groff-1.22.3.tar.gz
@@ -86,12 +86,12 @@ To make sure everything is installed correctly, run the IoT help file:
    $ aws iot help
    ``` 
 
-## Setting up Your Edison as an AWS IoT Thing
+## Setting Up Your Edison as an AWS IoT Thing
 
 ### Get AWS Credentials
 
 The AWS CLI is now installed. Create a new IAM user and get API
-credentials from the AWS Management Console by following
+credentials from the AWS Management Console by following steps in
 [Getting Set Up with the AWS Command Line Interface](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html#cli-signup). After
 you have an access ID and key, configure the AWS CLI credentials by
 issuing the following command:
@@ -100,8 +100,9 @@ issuing the following command:
    $ aws configure 
    ```
 
-**NOTE:** For the default region you must enter us-east-1 in order to
-  configure AWS IoT. The default output format can be left as JSON.
+**NOTE:** To configure AWS IoT, ensure that your default region is set
+  to a region where AWS IoT is available such as `us-east-1`. The
+  default output format can be left as JSON.
 
 In order to get permission to download the AWS IoT tools, attach the
 administrator account policy to the user. In the IAM console, in the
@@ -109,7 +110,9 @@ Users panel, select the user you created, attach the policy, and then
 select the administrator account.
 
 ### Register Your Edison
-In terms of AWS IoT, your Intel Edison device is a _Thing_.  Begin by registering your Edison with AWS IoT by issuing the following command:
+
+In terms of AWS IoT, your Intel Edison device is a _thing_.  To start
+registering your Edison with AWS IoT, issue the following command:
 
    ``` bash
    $ aws iot create-thing --thing-name myEdison
@@ -126,7 +129,7 @@ In terms of AWS IoT, your Intel Edison device is a _Thing_.  Begin by registerin
    $ cd aws_certs
    ```
 
-2. A client certificate must be generated to authenticate with AWS IoT
+2. A client certificate must be generated to authenticate with the AWS IoT
   topic with MQTT. Run the following to create the certificate:
 
    ``` bash
@@ -173,28 +176,27 @@ development purposes only.
 
 2. Enter `vi policy.json`,  hit "a", and right-click to paste the text.
 3. Press ESC and type in `:wq` to save and quit.
-
-### Attach the Policy to Your Certificate
-
-1. Create the IoT policy by issuing the following command:
+4. Create the IoT policy by issuing the following command:
 
    ``` bash
    $ aws iot create-policy                             \
-        --policy-name PubSubToAnyTopic                  \
+        --policy-name EdisonPubSubToAnyTopic            \
         --policy-document file://policy.json
    ``` 
 
-2. If you have misplaced your certificate ID, you can issue the
+### Attach the Policy to Your Certificate
+
+1. If you have misplaced your `certificateArn`, you can issue the
 following command to locate it:
 
    ``` bash
    $ aws iot list-certificates
    ```
 
-3. Attach the policy to the certificate by issuing the following command:
+2. Attach the policy to the certificate by issuing the following command:
 
    ``` bash
    $ aws iot attach-principal-policy                   \
-        --principal-arn <principal arn>                 \
-        --policy-name "PubSubToAnyTopic" 
-   ``` 
+        --principal-arn <certificate_arn>               \
+        --policy-name EdisonPubSubToAnyTopic 
+   ```
