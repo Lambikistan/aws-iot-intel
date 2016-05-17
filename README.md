@@ -11,19 +11,18 @@ and setting up a serial terminal. You can find the instructions here:
 
 ## Prepare Your Intel Edison for AWS IoT
 
-Before continuing, we recommend that you read the AWS IoT
+Before you continue, we recommend that you read the AWS IoT
 [Quickstart](http://docs.aws.amazon.com/iot/latest/developerguide/iot-quickstart.html).
-If you are already familiar with AWS IoT, please continue to the next
-step.
+If you are already familiar with AWS IoT, continue to the next step.
 
 ### Install the AWS CLI
 
-The AWS CLI is used to interoperate with Amazon Web Services.  The
-installation of Groff and a different version of less is required to
-view the help documentation.
+The AWS CLI is used to interoperate with Amazon Web Services.  To view
+the help documentation, you must install Groff and a different version
+of less.
 
-At this point, we assume you have internet access from the device to
-download and install these packages.
+We assume you have internet access from the device to download and
+install these packages.
 
 ### Install the Python Package Manager (pip)
 
@@ -42,8 +41,8 @@ download and install these packages.
 
 ### Install Dependencies
 
-To view help files using `aws iot help`, the Groff and a non-BusyBox
-version of less packages are required.
+To view help files using the `aws iot help` command, the Groff and a
+non-BusyBox version of less packages are required.
 
 #### Groff Installation
 
@@ -91,7 +90,7 @@ To make sure everything is installed correctly, run the IoT help file:
 ### Get AWS Credentials
 
 The AWS CLI is now installed. Create a new IAM user and get API
-credentials from the AWS Management Console by following steps in
+credentials from the AWS Management Console by following the steps in
 [Getting Set Up with the AWS Command Line Interface](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html#cli-signup). After
 you have an access ID and key, configure the AWS CLI credentials by
 issuing the following command:
@@ -129,7 +128,7 @@ registering your Edison with AWS IoT, issue the following command:
    $ cd aws_certs
    ```
 
-2. A client certificate must be generated to authenticate with the AWS IoT
+2. A client certificate must be generated to authenticate to the AWS IoT
   topic with MQTT. Run the following to create the certificate:
 
    ``` bash
@@ -155,7 +154,7 @@ in the service documentation.
 The following policy allows all IoT actions and should be used for
 development purposes only.
 
-1. Copy the following text (CTRL-C):
+1. Copy the following text (CTRL+C):
 
    ``` json
    {
@@ -186,7 +185,7 @@ development purposes only.
 
 ### Attach the Policy to Your Certificate
 
-1. If you have misplaced your `certificateArn`, you can issue the
+1. If you have misplaced the `certificateArn` value, you can issue the
 following command to locate it:
 
    ``` bash
