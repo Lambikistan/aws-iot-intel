@@ -15,7 +15,7 @@ You will need:
 
 **Download and extract the C SDK**
 
-You can find the C SDK here: https://github.com/aws/aws-iot-thing-sdk-embedded-C
+You can find the C SDK here: https://github.com/aws/aws-iot-device-sdk-embedded-C
 
 ``` bash
 $ tar -xf aws-iot-thing-sdk-c.tar
