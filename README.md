@@ -26,9 +26,25 @@ install these packages.
 
 ### Install the Python Package Manager (pip)
 
+Setup the Edison repo by replacing anything you have in the /etc/opkg/base-feeds.conf file with the following
    ``` bash
-   $ curl https://bootstrap.pypa.io/ez_setup.py -o - | python
-   $ easy_install pip
+   src/gz all http://repo.opkg.net/edison/repo/all
+   src/gz edison http://repo.opkg.net/edison/repo/edison
+   src/gz core2-32 http://repo.opkg.net/edison/repo/core2-32
+   ```
+
+Setup the IoT repo and apply the new configurations.
+   ``` bash
+   echo "src intel-iotdk http://iotdk.intel.com/repos/3.0/intelgalactic/opkg/i586" > /etc/opkg/intel-iotdk.conf
+   opkg update
+   ```
+
+Install pip with setuptools.
+   ``` bash
+   wget https://bootstrap.pypa.io/get-pip.py --no-check-certificate 
+   python get-pip.py
+   wget --no-check-certificate https://bootstrap.pypa.io/ez_setup.py
+   python ez_setup.py --insecure
    ```
 
 ### Install the AWS CLI
