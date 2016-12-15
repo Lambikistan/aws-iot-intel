@@ -49,56 +49,17 @@ Install pip with setuptools.
 
 ### Install the AWS CLI
 
+   Install `man` to also install `groff` and `less`, which is required
+   by `aws help`.
+   
+   ``` bash
+   opkg install man
+   ```
+
    Install the AWS CLI by issuing the following command:
 
    ``` bash
    $ pip install awscli
-   ``` 
-
-### Install Dependencies
-
-To view help files using the `aws iot help` command, the Groff and a
-non-BusyBox version of less packages are required.
-
-#### Groff Installation
-
-Execute the following commands to install Groff:
-
-   ``` bash
-   $ wget http://ftp.gnu.org/gnu/groff/groff-1.22.3.tar.gz
-   $ tar -zxvf groff-1.22.3.tar.gz
-   $ cd groff-1.22.3
-   $ ./configure
-   $ make
-   $ make install
-   $ export PATH=$PATH:/usr/local/bin/
-   $ cd ~
-   ``` 
-#### Less Installation
-
-First, rename the old version of less:
-
-   ``` bash
-   $ mv /usr/bin/less /usr/bin/less-OLD
-   ``` 
-
-Next, install the new version of less:
-
-   ``` bash
-   $ wget http://www.greenwoodsoftware.com/less/less-458.zip
-   $ unzip less-458.zip
-   $ cd less-458
-   $ chmod 777 *
-   $ ./configure
-   $ make
-   $ make install
-   $ cd ~
-   ```
-
-To make sure everything is installed correctly, run the IoT help file:
-
-   ``` bash
-   $ aws iot help
    ``` 
 
 ## Setting Up Your Edison as an AWS IoT Thing
@@ -123,15 +84,6 @@ In order to get permission to download the AWS IoT tools, attach the
 administrator account policy to the user. In the IAM console, in the
 Users panel, select the user you created, attach the policy, and then
 select the administrator account.
-
-### Register Your Edison
-
-In terms of AWS IoT, your Intel Edison device is a _thing_.  To start
-registering your Edison with AWS IoT, issue the following command:
-
-   ``` bash
-   $ aws iot create-thing --thing-name myEdison
-   ```
 
 ### Generate Certificates
 
@@ -159,6 +111,33 @@ registering your Edison with AWS IoT, issue the following command:
 Copy the value, which has a pattern of
 `arn:aws:iot:<region>:<accountId>:cert/<certificateId>`. You will use
 this value when you attach the certificate to the AWS IoT policy.
+
+### Register Your Edison and Attach to the Principal
+
+In terms of AWS IoT, your Intel Edison device is a _thing_.  To start
+registering your Edison with AWS IoT and attaching it to the
+Certificate that was generated in the previous step.
+
+1. Issue the following command to create the Thing:
+
+   ``` bash
+   $ aws iot create-thing --thing-name myEdison
+   ```
+
+2. If you have misplaced the `certificateArn` value, you can issue the
+following command to locate it:
+
+   ``` bash
+   $ aws iot list-certificates
+   ```
+
+3. Issue the following command to attach the Thing to the Principal:
+
+    ``` bash
+    $ aws iot attach-thing-principal                   \
+         --thing-name myEdison                          \
+         --principal <certificate_arn>
+    ```
 
 ### Create and Attach the AWS IoT Policy
 
@@ -197,21 +176,20 @@ development purposes only.
    $ aws iot create-policy                             \
         --policy-name EdisonPubSubToAnyTopic            \
         --policy-document file://policy.json
-   ``` 
-
-### Attach the Policy to Your Certificate
-
-1. If you have misplaced the `certificateArn` value, you can issue the
+   ```
+   
+5. If you have misplaced the `certificateArn` value, you can issue the
 following command to locate it:
 
    ``` bash
    $ aws iot list-certificates
    ```
 
-2. Attach the policy to the certificate by issuing the following command:
+6. Attach the policy to the certificate by issuing the following command:
 
    ``` bash
    $ aws iot attach-principal-policy                   \
         --principal <certificate_arn>                   \
         --policy-name EdisonPubSubToAnyTopic 
    ```
+
